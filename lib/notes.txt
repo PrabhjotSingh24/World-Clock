@@ -1,0 +1,1 @@
+asynchronous code is a type of code which starts now and ends sometime in future, await pauses the execution of the program for the future to complete but if you don't use await the asynchronous code will run but the alongside synchronous
