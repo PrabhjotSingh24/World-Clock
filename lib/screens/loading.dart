@@ -16,12 +16,12 @@ class Loading extends StatefulWidget {
 class _LoadingState extends State<Loading> {
   String loading = 'Loading';
   void setTime() async {
-    final currentTime =
-        WeatherData(location: "Kolkata", urlLocation: "America/Chicago");
+    final currentTime = WeatherData(urlLocation: "Asia/Kolkata");
     await currentTime.getData();
     Navigator.pushReplacementNamed(context, '/home', arguments: {
       "location": currentTime.location,
-      "time": currentTime.time
+      "time": currentTime.time,
+      'isday': currentTime.isDay
     });
   }
 
