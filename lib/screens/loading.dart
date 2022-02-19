@@ -1,10 +1,8 @@
 // ignore_for_file: prefer_const_constructors, avoid_print
 
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:world_clock/logic/weather_data.dart';
-import 'package:world_clock/screens/choose_location.dart';
 
 class Loading extends StatefulWidget {
   const Loading({Key? key}) : super(key: key);
@@ -19,7 +17,7 @@ class _LoadingState extends State<Loading> {
     final currentTime = WeatherData(urlLocation: "Asia/Kolkata");
     await currentTime.getData();
     Navigator.pushReplacementNamed(context, '/home', arguments: {
-      "location": currentTime.location,
+      "location": currentTime.urlLocation,
       "time": currentTime.time,
       'isday': currentTime.isDay
     });

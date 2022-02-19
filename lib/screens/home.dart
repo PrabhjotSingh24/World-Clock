@@ -13,56 +13,77 @@ class _HomeState extends State<Home> {
   Map data = {};
   @override
   Widget build(BuildContext context) {
-    data = ModalRoute.of(context)!.settings.arguments as Map;
+    data = data.isNotEmpty
+        ? data
+        : ModalRoute.of(context)!.settings.arguments as Map;
+    String s;
     Color? customColor =
         data['isday'] == true ? Colors.grey[850] : Colors.white;
-    // print(customColor);
-    // print(data);
 
-    return Scaffold(
-      body: SafeArea(
-        child: Container(
-          decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage(data['isday'] == true
-                      ? 'lib/assets/day.png'
-                      : 'lib/assets/night.png'),
-                  fit: BoxFit.cover)),
-          child: Padding(
-            padding: const EdgeInsets.all(10),
+    return Container(
+      decoration: BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage(
+                  'lib/assets/${data['location'].split("/")[0].toLowerCase() == 'asia' ? 'india' : data['location'].split("/")[0].toLowerCase()}.jpg'),
+              fit: BoxFit.cover)),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: SafeArea(
+          child: Container(
+            decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage(data['isday'] == true
+                        ? 'lib/assets/day1.png'
+                        : 'lib/assets/night1.png'),
+                    fit: BoxFit.cover)),
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(0, 500, 0, 0),
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.location_on,
-                          size: 30,
-                          color: customColor,
-                        ),
-                        SizedBox(
-                          width: 3,
-                        ),
-                        Text(data["location"],
-                            style: TextStyle(
-                                fontFamily: "Poppins",
-                                fontSize: 35,
-                                fontWeight: FontWeight.w200,
-                                color: customColor))
-                      ],
-                    ),
-                    Text(
-                      data["time"],
-                      style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 65,
-                          fontWeight: FontWeight.w500,
-                          color: customColor),
-                    ),
-                  ]),
+              padding: const EdgeInsets.all(10),
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(0, 525, 0, 0),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          TextButton.icon(
+                              onPressed: () async {
+                                dynamic result = await Navigator.pushNamed(
+                                    context, '/location');
+                                setState(() {
+                                  if (result != null) {
+                                    data = {
+                                      "location": result['location'],
+                                      "time": result['time'],
+                                      'isday': result['isday']
+                                    };
+                                  }
+                                });
+                              },
+                              icon: Icon(
+                                Icons.location_on,
+                                size: 30,
+                                color: customColor,
+                              ),
+                              label: Text(
+                                data["location"].split("/")[1],
+                                style: TextStyle(
+                                    fontFamily: 'Poppins',
+                                    fontSize: 35,
+                                    color: customColor),
+                              )),
+                        ],
+                      ),
+                      Text(
+                        data["time"],
+                        style: TextStyle(
+                            fontFamily: 'Poppins',
+                            fontSize: 65,
+                            fontWeight: FontWeight.w500,
+                            color: customColor),
+                      ),
+                    ]),
+              ),
             ),
           ),
         ),

@@ -5,10 +5,11 @@ import 'package:http/http.dart';
 import 'package:intl/intl.dart';
 
 class WeatherData {
-  WeatherData({this.urlLocation});
+  WeatherData({this.urlLocation, this.flag});
   var time;
   var urlLocation;
-  var location;
+  var flag;
+  var country;
   bool isDay = true;
   Future<void> getData() async {
     final url = Uri.parse("http://worldtimeapi.org/api/timezone/$urlLocation");
@@ -27,6 +28,6 @@ class WeatherData {
     }
     time = DateFormat().add_jm().format(date);
     isDay = date.hour >= 5 && date.hour <= 19 ? true : false;
-    location = urlLocation.split("/")[1];
+    // country = urlLocation.split("/")[0];
   }
 }
